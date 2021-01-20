@@ -3,7 +3,7 @@
  * @Author: Jiyu Shao
  * @Date: 2020-05-11 16:45:24
  * @Last Modified by: Jiyu Shao
- * @Last Modified time: 2021-01-20 15:14:30
+ * @Last Modified time: 2021-01-20 16:07:44
  */
 import React from 'react';
 import { Swiper, SwiperItem, View, Image } from '@tarojs/components';
@@ -11,14 +11,12 @@ import { Swiper, SwiperItem, View, Image } from '@tarojs/components';
 import smallImg from './img/small.png';
 import largeImg from './img/large.png';
 
-import styles from './swiper.module.less';
-
 interface IProps {}
 
 function SwiperComponent(_: IProps) {
   return (
     <Swiper
-      className={styles.swiperContainer}
+      className="swiper-component"
       indicatorColor="#999"
       indicatorActiveColor="#333"
       vertical

@@ -43,6 +43,10 @@ const config = {
         .use(require('webpack-dynamic-import-weapp-plugin').default, [
           {
             publicPath: 'http://localhost:5000/',
+            dynamicImportFolder: require('path').resolve(
+              __dirname,
+              '../src/dynamic-import'
+            ),
             devServer: {
               port: 5000,
             },

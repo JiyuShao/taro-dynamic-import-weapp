@@ -3,10 +3,10 @@ import { View, Text } from '@tarojs/components';
 
 const Index = () => {
   const AsyncButton = React.lazy(
-    () => import('../../async-components/button/button')
+    () => import('../../dynamic-import/button/button')
   );
   const AsyncSwiper = React.lazy(
-    () => import('../../async-components/swiper/swiper')
+    () => import('../../dynamic-import/swiper/swiper')
   );
   return (
     <View>

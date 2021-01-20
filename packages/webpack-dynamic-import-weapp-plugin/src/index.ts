@@ -5,6 +5,8 @@ const PLUGIN_NAME = 'DynamicImportWeappPlugin';
 interface IProps {
   // 资源地址
   publicPath: string;
+  // 动态导入相关文件目录
+  dynamicImportFolder?: string;
   // 开发模式下的配置
   devServer?: {
     // 端口
@@ -17,7 +19,7 @@ export default class DynamicImportWeappPlugin {
    * @type {IProps}
    * @memberof DynamicImportWeappPlugin
    */
-  options: IProps;
+  options: Required<IProps>;
 
   /**
    * devServer 是否运行
@@ -26,7 +28,13 @@ export default class DynamicImportWeappPlugin {
   isDevServerRunning = false;
 
   constructor(props: IProps) {
-    this.options = props;
+    this.options = {
+      devServer: {
+        port: 5000,
+      },
+      dynamicImportFolder: '/dynamic-import',
+      ...props,
+    };
   }
 
   /**
@@ -37,8 +45,37 @@ export default class DynamicImportWeappPlugin {
     // TODO: webpack 5.0 可能会不兼容
     // 覆盖 mainTemplate.hooks.requireEnsure 和 mainTemplate.hooks.jsonpScript 来实现小程序内的动态加载
     compiler.hooks.afterPlugins.tap(PLUGIN_NAME, () => {
-      compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
+      compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
         const { mainTemplate } = compilation;
+
+        // 更改动态导入输出文件目录
+        compilation.hooks.beforeChunkIds.tap(PLUGIN_NAME, chunks => {
+          const dynamicOutputFolderName = require('path').basename(
+            this.options.dynamicImportFolder
+          );
+          chunks.forEach(currentChunk => {
+            if (!currentChunk.name) {
+              const currentModules = currentChunk.getModules();
+              const currentEntryModule =
+                currentModules[currentModules.length - 1];
+
+              // @ts-ignore
+              const currentResource = currentEntryModule.resource;
+              if (
+                currentResource.startsWith(this.options.dynamicImportFolder)
+              ) {
+                const currentEntryName = currentResource
+                  .substring(this.options.dynamicImportFolder.length + 1)
+                  .split('.')
+                  .slice(0, -1)
+                  .join('.');
+                console.error(`${dynamicOutputFolderName}/${currentEntryName}`);
+                currentChunk.name = `${dynamicOutputFolderName}/${currentEntryName}`;
+              }
+            }
+          });
+        });
+
         // 注入代码 PUPLIC_PATH
         mainTemplate.hooks.requireExtensions.tap(PLUGIN_NAME, source => {
           const newSource: string[] = [];
@@ -49,8 +86,9 @@ export default class DynamicImportWeappPlugin {
           );
           return newSource.join('\n');
         });
+
+        // 添加小程序请求/执行代码逻辑
         if (mainTemplate.hooks.jsonpScript) {
-          // 添加小程序请求/执行代码逻辑
           mainTemplate.hooks.jsonpScript.tap('JsonpMainTemplatePlugin', () => {
             const { chunkLoadTimeout } = mainTemplate.outputOptions;
             return Template.asString([
