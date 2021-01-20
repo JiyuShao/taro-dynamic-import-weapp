@@ -1,0 +1,17 @@
+{
+  "name": "webpack-dynamic-import-weapp-plugin",
+  "version": "1.0.0",
+  "description": "Webpack 动态加载小程序代码插件",
+  "main": "lib/index.js",
+  "scripts": {
+    "compile": "tsc -p ./tsconfig.json",
+    "compile:watch": "tsc -p ./tsconfig.json -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jiyu Shao",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/webpack": "^4.41.26",
+    "webpack": "4.42.0"
+  }
+}

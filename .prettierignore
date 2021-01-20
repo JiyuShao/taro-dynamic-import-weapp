@@ -1,0 +1,16 @@
+.DS_Store
+.idea
+.eslintcache
+.vscode
+lib
+dist
+logs
+var
+node_modules
+npm-debug.log*
+package-lock.json
+config.json
+*.min.js
+*.sh
+Dockerfile
+.temp/

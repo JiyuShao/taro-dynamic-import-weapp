@@ -1,0 +1,8 @@
+lib
+dist
+var
+node_modules
+package.json
+package-lock.json
+*.d.ts
+.temp/
