@@ -9,6 +9,7 @@
     ]
   },
   "scripts": {
+    "start": "cross-env NODE_ENV=production yarn workspace demo run dev:weapp",
     "compile": "lerna run compile",
     "lint": "npm run lint:es && npm run lint:prettier && npm run lint:style",
     "lint:es": "eslint --ext .js,.jsx,.ts,.tsx ./ --cache --quiet",
@@ -38,6 +39,7 @@
     "@typescript-eslint/eslint-plugin": "^4.11.0",
     "@typescript-eslint/parser": "^4.11.0",
     "@typescript-eslint/typescript-estree": "^4.14.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.16.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.1.0",

@@ -1,9 +1,38 @@
 import { Template, Compiler } from 'webpack';
 
 const PLUGIN_NAME = 'DynamicImportWeappPlugin';
-const PUBLIC_PATH = 'http://localhost:5000/';
 
+interface IProps {
+  // 资源地址
+  publicPath: string;
+  // 开发模式下的配置
+  devServer?: {
+    // 端口
+    port: number;
+  };
+}
 export default class DynamicImportWeappPlugin {
+  /**
+   * 保留传入的参数
+   * @type {IProps}
+   * @memberof DynamicImportWeappPlugin
+   */
+  options: IProps;
+
+  /**
+   * devServer 是否运行
+   * @memberof DynamicImportWeappPlugin
+   */
+  isDevServerRunning = false;
+
+  constructor(props: IProps) {
+    this.options = props;
+  }
+
+  /**
+   * 接入 webpack, 并生成小程序动态加载代码
+   * @param compiler
+   */
   apply = (compiler: Compiler): void => {
     // TODO: webpack 5.0 可能会不兼容
     // 覆盖 mainTemplate.hooks.requireEnsure 和 mainTemplate.hooks.jsonpScript 来实现小程序内的动态加载
@@ -15,10 +44,11 @@ export default class DynamicImportWeappPlugin {
           const newSource: string[] = [];
           newSource.push(source);
           newSource.push('');
-          newSource.push(`__webpack_require__.p = "${PUBLIC_PATH}";`);
+          newSource.push(
+            `__webpack_require__.p = "${this.options.publicPath}";`
+          );
           return newSource.join('\n');
         });
-
         if (mainTemplate.hooks.jsonpScript) {
           // 添加小程序请求/执行代码逻辑
           mainTemplate.hooks.jsonpScript.tap('JsonpMainTemplatePlugin', () => {
@@ -124,5 +154,36 @@ export default class DynamicImportWeappPlugin {
         });
       });
     });
+
+    if (this.options.devServer) {
+      compiler.hooks.afterEmit.tap(PLUGIN_NAME, () => {
+        this.createServer(compiler.options.output?.path);
+      });
+    }
+  };
+
+  /**
+   * 创建开发时静态资源服务器
+   * @param distPath
+   */
+  createServer = (distPath?: string): void => {
+    const { devServer } = this.options;
+    if (this.isDevServerRunning || !devServer || !distPath) {
+      return;
+    }
+    this.isDevServerRunning = true;
+    require('http')
+      .createServer((req, res) => {
+        require('fs').readFile(distPath + req.url, (err, data) => {
+          if (err) {
+            res.writeHead(404);
+            res.end(JSON.stringify(err));
+            return;
+          }
+          res.writeHead(200);
+          res.end(data);
+        });
+      })
+      .listen(devServer.port);
   };
 }
