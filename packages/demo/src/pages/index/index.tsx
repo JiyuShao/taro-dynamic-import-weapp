@@ -2,18 +2,14 @@ import React, { Suspense } from 'react';
 import { View, Text } from '@tarojs/components';
 
 const Index = () => {
-  const AsyncButton = React.lazy(
-    () => import('../../dynamic-import/button/button')
-  );
-  const AsyncSwiper = React.lazy(
-    () => import('../../dynamic-import/swiper/swiper')
+  const DynamicComponent = React.lazy(
+    () => import('../../dynamic-import/dynamic-component/dynamic-component')
   );
   return (
     <View>
       <Text>Hello World</Text>
       <Suspense fallback={<Text>Loading...</Text>}>
-        <AsyncButton />
-        <AsyncSwiper />
+        <DynamicComponent />
       </Suspense>
     </View>
   );

@@ -52,6 +52,12 @@ const config = {
             },
           },
         ]);
+      chain.merge({
+        optimization: {
+          // 实现不更改其他代码的情况下的动态加载, 或者尝试使用 HashedModuleIdsPlugin
+          moduleIds: 'named',
+        },
+      });
     },
   },
   h5: {

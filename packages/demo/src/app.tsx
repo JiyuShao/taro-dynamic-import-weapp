@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View } from '@tarojs/components';
 import { Interpreter } from 'eval5';
 
+import './utils/init-components';
+
 // @ts-ignore
 wx['eval5Interpreter'] = Interpreter;
 

@@ -49,7 +49,7 @@ export default class DynamicImportWeappPlugin {
         const { mainTemplate } = compilation;
 
         // 更改动态导入输出文件目录
-        compilation.hooks.beforeChunkIds.tap(PLUGIN_NAME, chunks => {
+        compilation.hooks.afterOptimizeChunkIds.tap(PLUGIN_NAME, chunks => {
           const dynamicOutputFolderName = require('path').basename(
             this.options.dynamicImportFolder
           );
@@ -69,8 +69,14 @@ export default class DynamicImportWeappPlugin {
                   .split('.')
                   .slice(0, -1)
                   .join('.');
-                console.error(`${dynamicOutputFolderName}/${currentEntryName}`);
+                console.log(
+                  `发现动态加载入口 ${dynamicOutputFolderName}/${currentEntryName}`
+                );
                 currentChunk.name = `${dynamicOutputFolderName}/${currentEntryName}`;
+                // @ts-ignore
+                currentChunk.id = currentChunk.name;
+                // @ts-ignore
+                currentChunk.ids = [currentChunk.id];
               }
             }
           });
@@ -85,6 +91,20 @@ export default class DynamicImportWeappPlugin {
             `__webpack_require__.p = "${this.options.publicPath}";`
           );
           return newSource.join('\n');
+        });
+
+        // 替换 jsonpScriptSrc 方法
+        mainTemplate.hooks.localVars.tap(PLUGIN_NAME, source => {
+          const replaceRegex = /function jsonpScriptSrc\(chunkId\) \{\n(.*)\n\}/;
+          source = source.replace(
+            replaceRegex,
+            `
+              var jsonpScriptSrc = function (chunkId) {
+                return __webpack_require__.p + "" + chunkId + ".js"
+              }
+            `
+          );
+          return source;
         });
 
         // 添加小程序请求/执行代码逻辑
@@ -115,6 +135,7 @@ export default class DynamicImportWeappPlugin {
             var timeout = setTimeout(function(){
               onScriptComplete({ type: 'timeout'});
             }, ${chunkLoadTimeout});
+
             // 使用微信请求代码
             var failCallback = function() {
                 onScriptComplete({
@@ -182,8 +203,8 @@ export default class DynamicImportWeappPlugin {
                 'promises.push(installedChunkData[2] = promise);',
                 '',
                 '// start chunk loading',
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                mainTemplate.hooks.jsonpScript!.call('', chunk, hash),
+                // @ts-ignore
+                mainTemplate.hooks.jsonpScript.call('', chunk, hash),
               ]),
               '}',
             ]),
