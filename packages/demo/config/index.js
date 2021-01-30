@@ -9,7 +9,7 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: [],
+  plugins: ['taro-plugin-dynamic-import-weapp'],
   defineConstants: {},
   copy: {
     patterns: [],
@@ -35,30 +35,6 @@ const config = {
           generateScopedName: '[name]__[local]___[hash:base64:5]',
         },
       },
-    },
-    webpackChain(chain) {
-      // 添加小程序动态加载插件
-      chain
-        .plugin('DynamicImportWeappPlugin')
-        .use(require('webpack-dynamic-import-weapp-plugin').default, [
-          {
-            publicPath: 'http://localhost:5000/',
-            dynamicImportFolder: require('path').resolve(
-              __dirname,
-              '../src/dynamic-import'
-            ),
-            devServer: {
-              port: 5000,
-            },
-          },
-        ]);
-      chain.merge({
-        optimization: {
-          chunkIds: 'named',
-          // 实现不更改其他代码的情况下的动态加载, 或者尝试使用 HashedModuleIdsPlugin
-          moduleIds: 'named',
-        },
-      });
     },
   },
   h5: {

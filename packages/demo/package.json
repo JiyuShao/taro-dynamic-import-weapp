@@ -61,6 +61,6 @@
     "babel-preset-taro": "3.0.21",
     "eslint-config-taro": "3.0.21",
     "stylelint": "^13.6.1",
-    "webpack-dynamic-import-weapp-plugin": "1.0.0"
+    "taro-plugin-dynamic-import-weapp": "0.0.1"
   }
 }

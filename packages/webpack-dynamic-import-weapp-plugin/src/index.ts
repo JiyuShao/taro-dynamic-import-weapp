@@ -3,16 +3,12 @@ import { Template, Compiler } from 'webpack';
 const PLUGIN_NAME = 'DynamicImportWeappPlugin';
 
 interface IProps {
-  // 资源地址
+  // 指定一个子目录为动态加载的目录绝对地址, 方便区分静态代码和动态代码
+  dynamicImportFolderPath: string;
+  // 指定动态加载链接 prefix
   publicPath: string;
-  // 动态导入相关文件目录
-  dynamicImportFolder?: string;
-  // 开发模式下的配置
-  devServer?: {
-    // 端口
-    port: number;
-  };
 }
+
 export default class DynamicImportWeappPlugin {
   /**
    * 保留传入的参数
@@ -21,20 +17,8 @@ export default class DynamicImportWeappPlugin {
    */
   options: Required<IProps>;
 
-  /**
-   * devServer 是否运行
-   * @memberof DynamicImportWeappPlugin
-   */
-  isDevServerRunning = false;
-
   constructor(props: IProps) {
-    this.options = {
-      devServer: {
-        port: 5000,
-      },
-      dynamicImportFolder: '/dynamic-import',
-      ...props,
-    };
+    this.options = props;
   }
 
   /**
@@ -51,8 +35,9 @@ export default class DynamicImportWeappPlugin {
         // 更改动态导入输出文件目录
         compilation.hooks.afterOptimizeChunkIds.tap(PLUGIN_NAME, chunks => {
           const dynamicOutputFolderName = require('path').basename(
-            this.options.dynamicImportFolder
+            this.options.dynamicImportFolderPath
           );
+          console.log('\n');
           chunks.forEach(currentChunk => {
             if (!currentChunk.name) {
               const currentModules = currentChunk.getModules();
@@ -62,15 +47,15 @@ export default class DynamicImportWeappPlugin {
               // @ts-ignore
               const currentResource = currentEntryModule.resource;
               if (
-                currentResource.startsWith(this.options.dynamicImportFolder)
+                currentResource.startsWith(this.options.dynamicImportFolderPath)
               ) {
                 const currentEntryName = currentResource
-                  .substring(this.options.dynamicImportFolder.length + 1)
+                  .substring(this.options.dynamicImportFolderPath.length + 1)
                   .split('.')
                   .slice(0, -1)
                   .join('.');
                 console.log(
-                  `发现动态加载入口 ${dynamicOutputFolderName}/${currentEntryName}`
+                  `编译  发现动态入口 ${dynamicOutputFolderName}/${currentEntryName}`
                 );
                 currentChunk.name = `${dynamicOutputFolderName}/${currentEntryName}`;
                 // @ts-ignore
@@ -80,6 +65,7 @@ export default class DynamicImportWeappPlugin {
               }
             }
           });
+          console.log('\n');
         });
 
         // 注入代码 PUPLIC_PATH
@@ -213,36 +199,5 @@ export default class DynamicImportWeappPlugin {
         });
       });
     });
-
-    if (this.options.devServer) {
-      compiler.hooks.afterEmit.tap(PLUGIN_NAME, () => {
-        this.createServer(compiler.options.output?.path);
-      });
-    }
-  };
-
-  /**
-   * 创建开发时静态资源服务器
-   * @param distPath
-   */
-  createServer = (distPath?: string): void => {
-    const { devServer } = this.options;
-    if (this.isDevServerRunning || !devServer || !distPath) {
-      return;
-    }
-    this.isDevServerRunning = true;
-    require('http')
-      .createServer((req, res) => {
-        require('fs').readFile(distPath + req.url, (err, data) => {
-          if (err) {
-            res.writeHead(404);
-            res.end(JSON.stringify(err));
-            return;
-          }
-          res.writeHead(200);
-          res.end(data);
-        });
-      })
-      .listen(devServer.port);
   };
 }

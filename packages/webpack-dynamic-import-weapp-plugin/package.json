@@ -1,17 +1,19 @@
 {
   "name": "webpack-dynamic-import-weapp-plugin",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Webpack 动态加载小程序代码插件",
   "main": "lib/index.js",
   "scripts": {
-    "compile": "tsc -p ./tsconfig.json",
-    "compile:watch": "tsc -p ./tsconfig.json -w",
+    "clean": "rimraf lib",
+    "compile": "npm run clean && tsc -p ./tsconfig.json",
+    "compile:watch": "npm run clean && tsc -p ./tsconfig.json -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jiyu Shao",
   "license": "ISC",
   "devDependencies": {
     "@types/webpack": "^4.41.26",
+    "rimraf": "^3.0.2",
     "webpack": "4.42.0"
   }
 }

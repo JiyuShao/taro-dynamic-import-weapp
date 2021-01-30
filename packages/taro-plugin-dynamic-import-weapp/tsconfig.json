@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "rootDir": "./src",
+    "outDir": "./lib",
+    "declaration": true,
+    "declarationDir": "lib",
+    "module": "commonjs",
+    "target": "ES5"
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules", "lib"]
+}

@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "yarn workspace demo run dev:weapp",
-    "build": "cross-env NODE_ENV=production yarn workspace demo run dev:weapp",
+    "demo": "cross-env NODE_ENV=production yarn workspace demo run dev:weapp",
     "compile": "lerna run compile",
     "lint": "npm run lint:es && npm run lint:prettier && npm run lint:style",
     "lint:es": "eslint --ext .js,.jsx,.ts,.tsx ./ --cache --quiet",
