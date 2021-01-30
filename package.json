@@ -20,7 +20,14 @@
     "fix": "npm run fix:es && npm run fix:prettier && npm run fix:style",
     "fix:es": "eslint --ext .js,.jsx,.ts,.tsx ./ --cache --quiet --fix",
     "fix:style": "stylelint \"**/*.{css,less}\" --syntax less --fix",
-    "fix:prettier": "prettier --write \"**/*.{css,less,js,jsx,ts,tsx,json,yml,yaml,md}\""
+    "fix:prettier": "prettier --write \"**/*.{css,less,js,jsx,ts,tsx,json,yml,yaml,md}\"",
+    "publish": "lerna publish from-git",
+    "version": "lerna version --conventional-commits --no-changelog --no-push",
+    "version:prerelease": "npm run compile && npm run version -- --conventional-prerelease",
+    "version:stable": "npm run compile && npm run version -- --conventional-graduate",
+    "version:alpha": "npm run version:prerelease -- --preid=alpha",
+    "version:beta": "npm run version:prerelease -- --preid=beta",
+    "version:rc": "npm run version:prerelease -- --preid=rc"
   },
   "repository": {
     "type": "git",
