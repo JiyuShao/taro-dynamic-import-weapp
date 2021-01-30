@@ -1,11 +1,12 @@
 {
   "name": "webpack-dynamic-import-weapp-plugin",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Webpack 动态加载小程序代码插件",
   "main": "lib/index.js",
   "files": [
     "lib",
-    "package.json"
+    "package.json",
+    "README.md"
   ],
   "scripts": {
     "clean": "rimraf lib",
@@ -18,7 +19,8 @@
     "url": "git+https://github.com/JiyuShao/taro-dynamic-import-weapp.git"
   },
   "keywords": [
-    "Taro",
+    "webpack plugin",
+    "weapp",
     "dynamic-import"
   ],
   "author": "Jiyu Shao",

@@ -1,8 +1,13 @@
 {
   "name": "babel-preset-taro-dynamic-import-weapp",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "来源 [babel-preset-taro](https://github.com/NervJS/taro/tree/next/packages/babel-preset-taro), 禁用掉了小程序的 `babel-plugin-dynamic-import-node` 插件",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

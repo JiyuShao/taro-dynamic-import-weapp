@@ -1,11 +1,12 @@
 {
   "name": "taro-plugin-dynamic-import-weapp",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Taro 微信小程序动态加载插件",
   "main": "lib/index.js",
   "files": [
     "lib",
-    "package.json"
+    "package.json",
+    "README.md"
   ],
   "scripts": {
     "clean": "rimraf lib",
@@ -18,7 +19,8 @@
     "url": "git+https://github.com/JiyuShao/taro-dynamic-import-weapp.git"
   },
   "keywords": [
-    "Taro",
+    "Taro plugin",
+    "weapp",
     "dynamic-import"
   ],
   "author": "Jiyu Shao",
@@ -33,7 +35,7 @@
   },
   "dependencies": {
     "eval5": "^1.4.6",
-    "babel-preset-taro-dynamic-import-weapp": "^0.0.1",
-    "webpack-dynamic-import-weapp-plugin": "^0.0.1"
+    "babel-preset-taro-dynamic-import-weapp": "^0.0.0",
+    "webpack-dynamic-import-weapp-plugin": "^0.0.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "taro-dynamic-import-weapp",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Taro 3.0 微信小程序动态加载插件",
   "private": true,
   "workspaces": {
