@@ -3,10 +3,12 @@
  * @Author: Jiyu Shao
  * @Date: 2021-01-27 19:03:51
  * @Last Modified by: Jiyu Shao
- * @Last Modified time: 2021-01-28 19:21:50
+ * @Last Modified time: 2021-01-30 15:29:09
  */
 import WebpackDynamicImportWeappPlugin from 'webpack-dynamic-import-weapp-plugin';
 import { createServer } from './server';
+
+const path = require('path');
 
 export interface TaroPluginDynamicImportWeappOptions {
   // 指定一个子目录为动态加载的目录名称, 方便区分静态代码和动态代码, 默认 'dynamic-import'
@@ -52,7 +54,7 @@ export default (
       .plugin('DynamicImportWeappPlugin')
       .use(WebpackDynamicImportWeappPlugin, [
         {
-          dynamicImportFolderPath: require('path').resolve(
+          dynamicImportFolderPath: path.resolve(
             ctx.paths.sourcePath,
             finalPluginOpts.dynamicImportFolderName
           ),

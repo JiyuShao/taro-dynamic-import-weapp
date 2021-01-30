@@ -3,14 +3,30 @@
   "version": "0.0.1",
   "description": "Webpack 动态加载小程序代码插件",
   "main": "lib/index.js",
+  "files": [
+    "lib",
+    "package.json"
+  ],
   "scripts": {
     "clean": "rimraf lib",
     "compile": "npm run clean && tsc -p ./tsconfig.json",
     "compile:watch": "npm run clean && tsc -p ./tsconfig.json -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JiyuShao/taro-dynamic-import-weapp.git"
+  },
+  "keywords": [
+    "Taro",
+    "dynamic-import"
+  ],
   "author": "Jiyu Shao",
-  "license": "ISC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JiyuShao/taro-dynamic-import-weapp/issues"
+  },
+  "homepage": "https://github.com/JiyuShao/taro-dynamic-import-weapp#readme",
   "devDependencies": {
     "@types/webpack": "^4.41.26",
     "rimraf": "^3.0.2",

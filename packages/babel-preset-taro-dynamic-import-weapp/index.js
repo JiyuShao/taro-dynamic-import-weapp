@@ -1,5 +1,5 @@
 const path = require('path');
-// const apis = require('@tarojs/taro-h5/dist/taroApis')
+const apis = require('@tarojs/taro-h5/dist/taroApis');
 
 module.exports = (_, options = {}) => {
   const presets = [];
@@ -129,15 +129,18 @@ module.exports = (_, options = {}) => {
     },
   ]);
 
-  // if (process.env.TARO_ENV === 'h5') {
-  //   plugins.push([require('babel-plugin-transform-taroapi'), {
-  //     packageName: '@tarojs/taro',
-  //     apis
-  //   }])
-  // } else {
-  //   // 这里禁止使用 babel-plugin-dynamic-import-node
-  //   plugins.push([require('babel-plugin-dynamic-import-node')])
-  // }
+  if (process.env.TARO_ENV === 'h5') {
+    plugins.push([
+      require('babel-plugin-transform-taroapi'),
+      {
+        packageName: '@tarojs/taro',
+        apis,
+      },
+    ]);
+  } else {
+    // 这里禁止使用 babel-plugin-dynamic-import-node
+    // plugins.push([require('babel-plugin-dynamic-import-node')]);
+  }
 
   return {
     sourceType: 'unambiguous',

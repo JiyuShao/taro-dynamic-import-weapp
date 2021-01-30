@@ -1,6 +1,17 @@
+/*
+ * 小程序动态加载 webpack 插件
+ * 更改 jsonpScript 方法, 使用 eval5 + wx.request 替代
+ * @Author: Jiyu Shao
+ * @Date: 2021-01-30 15:22:12
+ * @Last Modified by: Jiyu Shao
+ * @Last Modified time: 2021-01-30 15:25:56
+ */
 import { Template, Compiler } from 'webpack';
 
+const path = require('path');
+
 const PLUGIN_NAME = 'DynamicImportWeappPlugin';
+const TARO_MINI_TYPE_ENTRY = 'ENTRY';
 
 interface IProps {
   // 指定一个子目录为动态加载的目录绝对地址, 方便区分静态代码和动态代码
@@ -34,7 +45,7 @@ export default class DynamicImportWeappPlugin {
 
         // 更改动态导入输出文件目录
         compilation.hooks.afterOptimizeChunkIds.tap(PLUGIN_NAME, chunks => {
-          const dynamicOutputFolderName = require('path').basename(
+          const dynamicOutputFolderName = path.basename(
             this.options.dynamicImportFolderPath
           );
           console.log('\n');
@@ -67,6 +78,28 @@ export default class DynamicImportWeappPlugin {
           });
           console.log('\n');
         });
+
+        /**
+         *  向 Entry 中插入自定义的 loader, 来注入全局变量和引入所有的 components
+         */
+        compilation.hooks.normalModuleLoader.tap(
+          PLUGIN_NAME,
+          (_, module: Record<string, any>) => {
+            if (module.miniType === TARO_MINI_TYPE_ENTRY) {
+              const entryLoaderPath = path.resolve(
+                __dirname,
+                'entry-loader.js'
+              );
+              if (
+                !module.loaders.some(item => item.loader === entryLoaderPath)
+              ) {
+                module.loaders.push({
+                  loader: entryLoaderPath,
+                });
+              }
+            }
+          }
+        );
 
         // 注入代码 PUPLIC_PATH
         mainTemplate.hooks.requireExtensions.tap(PLUGIN_NAME, source => {
@@ -146,7 +179,7 @@ export default class DynamicImportWeappPlugin {
                     clearInterval,
                   }
                   // 执行代码
-                  var interpreter = new wx["eval5Interpreter"](rootContext, {
+                  var interpreter = new wx["eval5"].Interpreter(rootContext, {
                     rootContext,
                   });
                   interpreter.evaluate(res.data)

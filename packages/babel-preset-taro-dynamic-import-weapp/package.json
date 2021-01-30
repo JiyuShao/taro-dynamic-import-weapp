@@ -1,14 +1,14 @@
 {
-  "name": "babel-preset-taro",
-  "version": "3.0.21",
+  "name": "babel-preset-taro-dynamic-import-weapp",
+  "version": "0.0.1",
   "description": "来源 [babel-preset-taro](https://github.com/NervJS/taro/tree/next/packages/babel-preset-taro), 禁用掉了小程序的 `babel-plugin-dynamic-import-node` 插件",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
+  "author": "Jiyu Shao",
+  "license": "MIT",
+  "devDependencies": {
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10"
   }
