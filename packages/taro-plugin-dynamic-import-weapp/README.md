@@ -19,14 +19,19 @@ yarn add -D taro-plugin-dynamic-import-weapp
 ```js
 {
   // ...
-  plugins: [["taro-plugin-dynamic-import-weapp", {
-    // 指定一个子目录为动态加载的目录名称, 方便区分静态代码和动态代码, 默认 'dynamic-import'
-    dynamicImportFolderName: 'dynamic-import',
-    // 指定动态加载链接 prefix
-    publicPath: 'http://localhost:5000/',
-    // 开发模式下启动的开发服务器端口
-    port: 5000,
-  }]],
+  plugins: [
+    [
+      "taro-plugin-dynamic-import-weapp",
+      {
+        // 指定一个子目录为动态加载的目录名称, 方便区分静态代码和动态代码, 默认 "dynamic-import"
+        dynamicImportFolderName: "dynamic-import",
+        // 开发模式下启动的开发服务器端口, 默认自动分配端口
+        port: 5000,
+        // 指定动态加载链接 prefix, 默认 "http://127.0.0.1:默认端口/"
+        publicPath: "http://localhost:5000/",
+      },
+    ],
+  ],
   // ...
 }
 ```

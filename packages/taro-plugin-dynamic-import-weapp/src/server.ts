@@ -3,8 +3,10 @@
  * @Author: Jiyu Shao
  * @Date: 2021-01-30 15:29:13
  * @Last Modified by: Jiyu Shao
- * @Last Modified time: 2021-01-30 15:29:49
+ * @Last Modified time: 2021-02-01 14:05:23
  */
+const http = require('http');
+
 /**
  * 创建开发时静态资源服务器
  * @param {number} port 静态资源服务器端口
@@ -20,7 +22,7 @@ export const createServer = (port: number, distPath: string): void => {
     return;
   }
   isDevServerRunning = true;
-  require('http')
+  http
     .createServer((req, res) => {
       require('fs').readFile(distPath + req.url, (err, data) => {
         if (err) {
@@ -32,5 +34,7 @@ export const createServer = (port: number, distPath: string): void => {
         res.end(data);
       });
     })
-    .listen(port);
+    .listen(port, () => {
+      console.log(`动态加载开发服务器已启动, 地址: http://127.0.0.1:${port}`);
+    });
 };
