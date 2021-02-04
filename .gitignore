@@ -1,15 +1,10 @@
 lib/
 dist/
-.temp/
-.rn_temp/
 node_modules/
 .DS_Store
-logs
-var
-.csscomb.json
 npm-debug.log*
 .eslintcache
 .idea
 .vscode
-config.json
 yarn-error.log
+coverage

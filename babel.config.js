@@ -10,6 +10,7 @@ module.exports = {
         ignoreBrowserslistConfig: true,
       },
     ],
+    '@babel/preset-typescript',
   ],
   plugins: [
     ['@babel/plugin-proposal-nullish-coalescing-operator'],

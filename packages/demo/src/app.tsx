@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View } from '@tarojs/components';
 
+import './app.less';
+
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends Component {
   // componentDidMount() {}

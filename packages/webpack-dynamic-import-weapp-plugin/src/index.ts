@@ -4,32 +4,36 @@
  * @Author: Jiyu Shao
  * @Date: 2021-01-30 15:22:12
  * @Last Modified by: Jiyu Shao
- * @Last Modified time: 2021-01-30 15:25:56
+ * @Last Modified time: 2021-02-04 10:21:24
  */
-import { Template, Compiler } from 'webpack';
+import { Template, Compiler, compilation } from 'webpack';
 
 const path = require('path');
 
 const PLUGIN_NAME = 'DynamicImportWeappPlugin';
-const TARO_MINI_TYPE_ENTRY = 'ENTRY';
 
-interface IProps {
+export interface DynamicImportWeappPluginOptions {
   // 指定一个子目录为动态加载的目录绝对地址, 方便区分静态代码和动态代码
   dynamicImportFolderPath: string;
   // 指定动态加载链接 prefix
   publicPath: string;
+  // 验证是否为 entry module, 用于注入全局变量到入口文件
+  isEntryModule?: (module: compilation.Module) => boolean;
 }
 
 export default class DynamicImportWeappPlugin {
   /**
    * 保留传入的参数
-   * @type {IProps}
+   * @type {DynamicImportWeappPluginOptions}
    * @memberof DynamicImportWeappPlugin
    */
-  options: Required<IProps>;
+  options: Required<DynamicImportWeappPluginOptions>;
 
-  constructor(props: IProps) {
-    this.options = props;
+  constructor(props: DynamicImportWeappPluginOptions) {
+    this.options = {
+      isEntryModule: () => false,
+      ...props,
+    };
   }
 
   /**
@@ -82,24 +86,24 @@ export default class DynamicImportWeappPlugin {
         /**
          *  向 Entry 中插入自定义的 loader, 来注入全局变量和引入所有的 components
          */
-        compilation.hooks.normalModuleLoader.tap(
-          PLUGIN_NAME,
-          (_, module: Record<string, any>) => {
-            if (module.miniType === TARO_MINI_TYPE_ENTRY) {
-              const entryLoaderPath = path.resolve(
-                __dirname,
-                'entry-loader.js'
-              );
-              if (
-                !module.loaders.some(item => item.loader === entryLoaderPath)
-              ) {
-                module.loaders.push({
-                  loader: entryLoaderPath,
-                });
-              }
+        compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_, module) => {
+          const isEntryModule = this.options.isEntryModule(module);
+          if (isEntryModule) {
+            const entryLoaderPath = path.resolve(
+              __dirname,
+              '../lib/entry-loader.js'
+            );
+            if (
+              // @ts-ignore
+              !module.loaders.some(item => item.loader === entryLoaderPath)
+            ) {
+              // @ts-ignore
+              module.loaders.push({
+                loader: entryLoaderPath,
+              });
             }
           }
-        );
+        });
 
         // 注入代码 PUPLIC_PATH
         mainTemplate.hooks.requireExtensions.tap(PLUGIN_NAME, source => {

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DynamicImportWeappPlugin options "isEntryModule" should work 1`] = `
+"
+  import * as eval5 from 'eval5';
+  import * as TaroComponents from '@tarojs/components';
+
+  wx['eval5'] = eval5;
+  Object.keys(TaroComponents);
+
+  export default () => {
+  import('./dynamic-import/async-add').then(currentModule => {
+    console.log(currentModule(1, 2));
+  });
+};
+
+  "
+`;

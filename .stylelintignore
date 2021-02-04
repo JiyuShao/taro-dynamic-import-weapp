@@ -2,3 +2,7 @@
 **/*.jsx
 **/*.ts
 **/*.tsx
+lib/
+dist/
+node_modules/
+coverage
