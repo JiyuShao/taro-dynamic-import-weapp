@@ -31,13 +31,13 @@
   "homepage": "https://github.com/JiyuShao/taro-dynamic-import-weapp#readme",
   "devDependencies": {
     "@tarojs/service": "^3.0.26",
-    "get-port": "^5.1.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.1.3"
   },
   "dependencies": {
     "babel-preset-taro-dynamic-import-weapp": "^0.1.0-alpha.0",
     "eval5": "^1.4.6",
+    "get-port": "^5.1.1",
     "webpack-dynamic-import-weapp-plugin": "^0.1.0-alpha.1"
   }
 }
