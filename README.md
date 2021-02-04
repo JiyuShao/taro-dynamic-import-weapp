@@ -22,10 +22,12 @@ yarn
 npm run start
 ```
 
-项目运行后,
+项目运行后:
 
 - 打开小程序开发者工具, 可以看到动态请求的 js 代码
-- 可以修改 `packages/demo/src/dynamic-import` 项目中的代码, 对比打包结果
+- 可以修改 `packages/demo/src/dynamic-import` 中的代码, 对比打包结果
+
+> 注意, 如果没有提供 port 和 publicPath 的情况下, 会使用随机生成的端口, 每次打包都会更改 `runtime.js` 的 `publicPath` 端口, 正式环境指定 `publicPath` 即可
 
 ### 预览图
 
@@ -37,5 +39,5 @@ npm run start
 
 ## 缺点
 
-- 有可能不支持 `webpack 5.0+`
+- 不支持 `webpack 5.0+`
 - 不支持动态加载样式文件 `wxss`, 建议使用原子性的 CSS 库 `tailwind CSS`

@@ -9,7 +9,14 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: ['taro-plugin-dynamic-import-weapp'],
+  plugins: [
+    [
+      'taro-plugin-dynamic-import-weapp',
+      {
+        port: 5000,
+      },
+    ],
+  ],
   defineConstants: {},
   copy: {
     patterns: [],
