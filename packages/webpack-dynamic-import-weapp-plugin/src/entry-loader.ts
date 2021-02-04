@@ -4,10 +4,12 @@
  * @Author: Jiyu Shao
  * @Date: 2021-01-30 15:26:27
  * @Last Modified by: Jiyu Shao
- * @Last Modified time: 2021-01-30 15:27:07
+ * @Last Modified time: 2021-02-04 14:11:32
  */
+import stripIndent from 'strip-indent';
+
 export default function EntryLoader(source) {
-  return `
+  return stripIndent(`
   import * as eval5 from 'eval5';
   import * as TaroComponents from '@tarojs/components';
 
@@ -15,5 +17,5 @@ export default function EntryLoader(source) {
   Object.keys(TaroComponents);
 
   ${source}
-  `;
+  `);
 }

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DynamicImportWeappPlugin entry-loader "entry-loader" should return prefix code 1`] = `
+"
+import * as eval5 from 'eval5';
+import * as TaroComponents from '@tarojs/components';
+
+wx['eval5'] = eval5;
+Object.keys(TaroComponents);
+
+script end
+"
+`;

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DynamicImportWeappPlugin options "isEntryModule" should work 1`] = `
+exports[`DynamicImportWeappPlugin options "EntryLoader" should only add once: INDEX_MODULE_SOURCE_WITH_ENTRY 1`] = `
 "
   import * as eval5 from 'eval5';
   import * as TaroComponents from '@tarojs/components';
@@ -15,4 +15,30 @@ exports[`DynamicImportWeappPlugin options "isEntryModule" should work 1`] = `
 };
 
   "
+`;
+
+exports[`DynamicImportWeappPlugin options "isEntryModule" should work: INDEX_MODULE_SOURCE_WITH_ENTRY 1`] = `
+"
+  import * as eval5 from 'eval5';
+  import * as TaroComponents from '@tarojs/components';
+
+  wx['eval5'] = eval5;
+  Object.keys(TaroComponents);
+
+  export default () => {
+  import('./dynamic-import/async-add').then(currentModule => {
+    console.log(currentModule(1, 2));
+  });
+};
+
+  "
+`;
+
+exports[`DynamicImportWeappPlugin options "publicPath" should override __webpack_require__.p: INDEX_MODULE_SOURCE_WITHOUT_ENTRY 1`] = `
+"export default () => {
+  import('./dynamic-import/async-add').then(currentModule => {
+    console.log(currentModule(1, 2));
+  });
+};
+"
 `;

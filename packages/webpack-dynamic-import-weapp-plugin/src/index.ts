@@ -4,9 +4,10 @@
  * @Author: Jiyu Shao
  * @Date: 2021-01-30 15:22:12
  * @Last Modified by: Jiyu Shao
- * @Last Modified time: 2021-02-04 10:21:24
+ * @Last Modified time: 2021-02-04 14:10:07
  */
 import { Template, Compiler, compilation } from 'webpack';
+import stripIndent from 'strip-indent';
 
 const path = require('path');
 
@@ -121,87 +122,82 @@ export default class DynamicImportWeappPlugin {
           const replaceRegex = /function jsonpScriptSrc\(chunkId\) \{\n(.*)\n\}/;
           source = source.replace(
             replaceRegex,
-            `
+            stripIndent(`
               var jsonpScriptSrc = function (chunkId) {
                 return __webpack_require__.p + "" + chunkId + ".js"
               }
-            `
+            `)
           );
           return source;
         });
 
         // 添加小程序请求/执行代码逻辑
-        if (mainTemplate.hooks.jsonpScript) {
-          mainTemplate.hooks.jsonpScript.tap('JsonpMainTemplatePlugin', () => {
-            const { chunkLoadTimeout } = mainTemplate.outputOptions;
-            return Template.asString([
-              `
-            var onScriptComplete;
-            // create error before stack unwound to get useful stacktrace later
-            var error = new Error();
-            onScriptComplete = function (event) {
-              clearTimeout(timeout);
-              var chunk = installedChunks[chunkId];
-              if(chunk !== 0) {
-                if(chunk) {
-                  var errorType = event && (event.type === 'load' ? 'missing' : event.type);
-                  var realSrc = event && event.target && event.target.src;
-                  error.message = 'Loading chunk ' + chunkId + ' failed.n(' + errorType + ': ' + realSrc + ')';
-                  error.name = 'ChunkLoadError';
-                  error.type = errorType;
-                  error.request = realSrc;
-                  chunk[1](error);
-                }
-                installedChunks[chunkId] = undefined;
+        mainTemplate.hooks.jsonpScript?.tap('JsonpMainTemplatePlugin', () => {
+          const { chunkLoadTimeout } = mainTemplate.outputOptions;
+          return stripIndent(`
+          var onScriptComplete;
+          // create error before stack unwound to get useful stacktrace later
+          var error = new Error();
+          onScriptComplete = function (event) {
+            clearTimeout(timeout);
+            var chunk = installedChunks[chunkId];
+            if(chunk !== 0) {
+              if(chunk) {
+                var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+                var realSrc = event && event.target && event.target.src;
+                error.message = 'Loading chunk ' + chunkId + ' failed.n(' + errorType + ': ' + realSrc + ')';
+                error.name = 'ChunkLoadError';
+                error.type = errorType;
+                error.request = realSrc;
+                chunk[1](error);
               }
-            };
-            var timeout = setTimeout(function(){
-              onScriptComplete({ type: 'timeout'});
-            }, ${chunkLoadTimeout});
+              installedChunks[chunkId] = undefined;
+            }
+          };
+          var timeout = setTimeout(function(){
+            onScriptComplete({ type: 'timeout'});
+          }, ${chunkLoadTimeout});
 
-            // 使用微信请求代码
-            var failCallback = function() {
-                onScriptComplete({
-                  type: "request:fail",
-                  target: {
-                    src: jsonpScriptSrc(chunkId)
-                  }
-                })
-              }
-            var successCallback = function(res) {
-                if (res.statusCode !== 200) {
-                  failCallback()
-                  return;
+          // 使用微信请求代码
+          var failCallback = function() {
+              onScriptComplete({
+                type: "request:fail",
+                target: {
+                  src: jsonpScriptSrc(chunkId)
                 }
-                try {
-                  var rootContext = {
-                    wx,
-                    console,
-                    setTimeout,
-                    clearTimeout,
-                    setInterval,
-                    clearInterval,
-                  }
-                  // 执行代码
-                  var interpreter = new wx["eval5"].Interpreter(rootContext, {
-                    rootContext,
-                  });
-                  interpreter.evaluate(res.data)
-                } catch (error) {
-                  console.trace(error)
-                }
-              }
-
-              wx.request({
-                url: jsonpScriptSrc(chunkId),
-                timeout: ${chunkLoadTimeout},
-                success: successCallback,
-                fail: failCallback,
               })
-            `,
-            ]);
-          });
-        }
+            }
+          var successCallback = function(res) {
+              if (res.statusCode !== 200) {
+                failCallback()
+                return;
+              }
+              try {
+                var rootContext = {
+                  wx,
+                  console,
+                  setTimeout,
+                  clearTimeout,
+                  setInterval,
+                  clearInterval,
+                }
+                // 执行代码
+                var interpreter = new wx["eval5"].Interpreter(rootContext, {
+                  rootContext,
+                });
+                interpreter.evaluate(res.data)
+              } catch (error) {
+                console.trace(error)
+              }
+            }
+
+            wx.request({
+              url: jsonpScriptSrc(chunkId),
+              timeout: ${chunkLoadTimeout},
+              success: successCallback,
+              fail: failCallback,
+            })`);
+        });
 
         // 删除 append $script 的语句
         mainTemplate.hooks.requireEnsure.tap(PLUGIN_NAME, (_, chunk, hash) => {

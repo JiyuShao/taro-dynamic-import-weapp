@@ -3,7 +3,7 @@
  * @Author: Jiyu Shao
  * @Date: 2021-01-27 19:03:51
  * @Last Modified by: Jiyu Shao
- * @Last Modified time: 2021-02-01 13:57:51
+ * @Last Modified time: 2021-02-04 10:58:13
  */
 import { IPluginContext } from '@tarojs/service';
 import * as getPort from 'get-port';
@@ -12,6 +12,8 @@ import { createServer } from './server';
 
 const path = require('path');
 const fs = require('fs');
+
+const TARO_ENTRY_MINI_TYPE = 'ENTRY';
 
 export interface TaroPluginDynamicImportWeappOptions {
   // 指定一个子目录为动态加载的目录名称, 方便区分静态代码和动态代码, 默认 'dynamic-import'
@@ -75,6 +77,9 @@ export default async (
             finalPluginOpts.dynamicImportFolderName
           ),
           publicPath: finalPluginOpts.publicPath,
+          isEntryModule: module => {
+            return module.miniType === TARO_ENTRY_MINI_TYPE;
+          },
         },
       ]);
 

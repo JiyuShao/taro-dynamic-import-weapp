@@ -34,5 +34,8 @@
     "memfs": "^3.2.0",
     "rimraf": "^3.0.2",
     "webpack": "4.42.0"
+  },
+  "dependencies": {
+    "strip-indent": "^3.0.0"
   }
 }

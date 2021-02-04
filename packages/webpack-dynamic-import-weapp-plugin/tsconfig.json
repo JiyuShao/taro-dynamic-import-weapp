@@ -7,7 +7,8 @@
     "declaration": true,
     "declarationDir": "lib",
     "module": "commonjs",
-    "target": "ES5"
+    "target": "ES5",
+    "esModuleInterop": true
   },
   "include": ["./src"],
   "exclude": ["node_modules", "lib"]
