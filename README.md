@@ -29,7 +29,11 @@ npm run start
 
 ### 预览图
 
-![demo](./assets/demo.jpg)
+**静态页面示例图:**
+![静态页面示例图](./assets/demo-static.jpg)
+
+**动态页面示例图:**
+![动态页面示例图](./assets/demo-dynamic.jpg)
 
 ## 缺点
 

@@ -7,13 +7,16 @@ const AsyncButton = React.lazy(
 const AsyncSwiper = React.lazy(
   () => import('../../dynamic-import/swiper/swiper')
 );
+const AsyncMovableArea = React.lazy(
+  () => import('../../dynamic-import/movable-area/movable-area')
+);
 
 const DynamicComponent = () => {
   return (
     <View>
       <AsyncButton />
-      <View>大幅度是</View>
       <AsyncSwiper />
+      <AsyncMovableArea />
     </View>
   );
 };
