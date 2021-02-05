@@ -117,9 +117,11 @@ export default Index;
 ### 示例预览图
 
 **静态页面示例图:**
+
 ![静态页面示例图](../../assets/demo-static.jpg)
 
 **动态页面示例图:**
+
 ![动态页面示例图](../../assets/demo-dynamic.jpg)
 
 ## 缺点
