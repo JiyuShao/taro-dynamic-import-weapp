@@ -1,6 +1,6 @@
 {
   "name": "webpack-dynamic-import-weapp-plugin",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "description": "Webpack 动态加载小程序代码插件",
   "main": "lib/index.js",
   "files": [
