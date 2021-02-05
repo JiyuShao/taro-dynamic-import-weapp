@@ -1,14 +1,8 @@
-# taro-dynamic-import-weapp
+# taro-plugin-dynamic-import-weapp
 
 > 基于 Taro 3.0 的小程序端动态加载逻辑
 
-## 如何使用
-
-见 [taro-plugin-dynamic-import-weapp](./packages/taro-plugin-dynamic-import-weapp/README.md)
-
-## 基本原理
-
-在 `Taro 3.0` 的 `webpack` 打包能力和 `react` 的运行时能力基础上, 使用 `webpack 插件` 和 `babel 插件` 的情况下, 结合 `dynamic-import`, `wx.request`, `eval5` 来实现打包动态加载的代码的情况下, 不影响静态资源的逻辑
+使用方式见 [taro-plugin-dynamic-import-weapp](./packages/taro-plugin-dynamic-import-weapp/README.md)
 
 ## 运行 demo
 
@@ -29,7 +23,7 @@ npm run start
 
 > 注意, 如果没有提供 port 和 publicPath 的情况下, 会使用随机生成的端口, 每次打包都会更改 `runtime.js` 的 `publicPath` 端口, 正式环境指定 `publicPath` 即可
 
-### 预览图
+### 示例预览图
 
 **静态页面示例图:**
 ![静态页面示例图](./assets/demo-static.jpg)

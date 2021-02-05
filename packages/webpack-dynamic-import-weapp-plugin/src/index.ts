@@ -53,7 +53,7 @@ export default class DynamicImportWeappPlugin {
           const dynamicOutputFolderName = path.basename(
             this.options.dynamicImportFolderPath
           );
-          console.log('\n');
+          const dynamicEntryList: Record<string, any> = [];
           chunks.forEach(currentChunk => {
             if (!currentChunk.name) {
               const currentModules = currentChunk.getModules();
@@ -70,9 +70,10 @@ export default class DynamicImportWeappPlugin {
                   .split('.')
                   .slice(0, -1)
                   .join('.');
-                console.log(
-                  `编译  发现动态入口 ${dynamicOutputFolderName}/${currentEntryName}`
-                );
+                dynamicEntryList.push({
+                  dynamicOutputFolderName,
+                  currentEntryName,
+                });
                 currentChunk.name = `${dynamicOutputFolderName}/${currentEntryName}`;
                 // @ts-ignore
                 currentChunk.id = currentChunk.name;
@@ -81,7 +82,14 @@ export default class DynamicImportWeappPlugin {
               }
             }
           });
-          console.log('\n');
+          if (dynamicEntryList.length !== 0) {
+            console.log('\n');
+            dynamicEntryList.forEach(currentEntry => {
+              console.log(
+                `编译  发现动态入口 ${currentEntry.dynamicOutputFolderName}/${currentEntry.currentEntryName}`
+              );
+            });
+          }
         });
 
         /**
