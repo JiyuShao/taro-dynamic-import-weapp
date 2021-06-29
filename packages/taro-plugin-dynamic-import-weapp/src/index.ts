@@ -30,8 +30,10 @@ export default async (
 ): Promise<void> => {
   const { runOpts } = ctx;
 
+  let options = runOpts;
+  if ('options' in runOpts) options = runOpts.options;
   // 插件只在 weapp 环境下生效
-  if (runOpts.platform !== 'weapp') {
+  if (options.platform !== 'weapp') {
     return;
   }
 
@@ -135,7 +137,7 @@ export default async (
     }
 
     // 只有在监听模式下开启 dev-server
-    if (runOpts.isWatch) {
+    if (options.isWatch) {
       createServer(finalPluginOpts.port, ctx.paths.outputPath);
     }
   });
