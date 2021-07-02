@@ -3,7 +3,7 @@
  * @Author: Jiyu Shao
  * @Date: 2021-01-27 19:03:51
  * @Last Modified by: Jiyu Shao
- * @Last Modified time: 2021-02-04 10:58:13
+ * @Last Modified time: 2021-07-02 10:55:42
  */
 import { IPluginContext } from '@tarojs/service';
 import * as getPort from 'get-port';
@@ -30,6 +30,7 @@ export default async (
 ): Promise<void> => {
   const { runOpts } = ctx;
 
+  // 兼容不同版本的格式, 例如 v3.0.21 和 v3.2.13
   let options = runOpts;
   if ('options' in runOpts) options = runOpts.options;
   // 插件只在 weapp 环境下生效
