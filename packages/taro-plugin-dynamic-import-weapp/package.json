@@ -1,6 +1,6 @@
 {
   "name": "taro-plugin-dynamic-import-weapp",
-  "version": "0.3.0-rc.3",
+  "version": "0.3.0",
   "description": "Taro 微信小程序动态加载插件",
   "main": "lib/index.js",
   "files": [
@@ -36,10 +36,10 @@
   },
   "dependencies": {
     "acorn-walk": "6.2.0",
-    "babel-preset-taro-dynamic-import-weapp": "^0.2.0-rc.0",
+    "babel-preset-taro-dynamic-import-weapp": "^0.2.0",
     "eval5": "^1.4.6",
     "get-port": "^5.1.1",
-    "webpack-dynamic-import-weapp-plugin": "^0.2.0-rc.0"
+    "webpack-dynamic-import-weapp-plugin": "^0.2.0"
   },
   "peerDependencies": {
     "acorn-walk": "6.2.0"
