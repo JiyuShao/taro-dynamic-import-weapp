@@ -1,6 +1,6 @@
 {
   "name": "taro-plugin-dynamic-import-weapp",
-  "version": "0.3.0-rc.2",
+  "version": "0.3.0-rc.3",
   "description": "Taro 微信小程序动态加载插件",
   "main": "lib/index.js",
   "files": [
