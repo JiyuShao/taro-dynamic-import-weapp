@@ -12,8 +12,11 @@
 # 项目根目录安装依赖
 yarn
 
+# 编译项目
+yarn run compile
+
 # 打包 demo 项目, 默认开发端口是 5000
-npm run start
+yarn run start
 ```
 
 项目运行后:

@@ -41,8 +41,6 @@
     "@tarojs/react": "3.2.13",
     "@tarojs/runtime": "3.2.13",
     "@tarojs/taro": "3.2.13",
-    "acorn-walk": "^6.0.1",
-    "eval5": "^1.4.6",
     "postcss": "^8.2.4",
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
