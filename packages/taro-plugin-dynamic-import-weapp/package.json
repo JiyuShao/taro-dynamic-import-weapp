@@ -36,11 +36,9 @@
   },
   "dependencies": {
     "babel-preset-taro-dynamic-import-weapp": "^0.2.0-rc.0",
+    "acorn-walk": "6.2.0",
     "eval5": "^1.4.6",
     "get-port": "^5.1.1",
     "webpack-dynamic-import-weapp-plugin": "^0.2.0-rc.0"
-  },
-  "peerDependencies": {
-    "acorn-walk": "^6.0.1"
   }
 }
