@@ -60,9 +60,14 @@ export default class DynamicImportWeappPlugin {
               const currentEntryModule =
                 currentModules[currentModules.length - 1];
 
-              // @ts-ignore
-              const currentResource = currentEntryModule.resource;
+              const currentResource =
+                // @ts-ignore
+                currentEntryModule.resource ||
+                // @ts-ignore
+                currentEntryModule.rootModule.resource;
+
               if (
+                typeof currentResource === 'string' &&
                 currentResource.startsWith(this.options.dynamicImportFolderPath)
               ) {
                 const currentEntryName = currentResource
@@ -74,7 +79,7 @@ export default class DynamicImportWeappPlugin {
                   dynamicOutputFolderName,
                   currentEntryName,
                 });
-                currentChunk.name = `${dynamicOutputFolderName}/${currentEntryName}`;
+                currentChunk.name = `${dynamicOutputFolderName}/${currentEntryName}[chunkhash]`;
                 // @ts-ignore
                 currentChunk.id = currentChunk.name;
                 // @ts-ignore

@@ -13,6 +13,7 @@
     "demo": "yarn workspace demo run dev:weapp",
     "demo:compress": "cross-env NODE_ENV=production yarn workspace demo run dev:weapp",
     "compile": "lerna run compile",
+    "compile:watch": "lerna run compile:watch",
     "lint": "yarn run lint:es && yarn run lint:prettier && yarn run lint:style",
     "lint:es": "eslint --ext .js,.jsx,.ts,.tsx ./ --cache --quiet",
     "lint:style": "stylelint \"**/*.{css,less}\" --syntax less",

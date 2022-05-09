@@ -3,10 +3,11 @@
 module.exports = {
   presets: [
     [
-      'babel-preset-taro-dynamic-import-weapp',
+      'taro',
       {
         framework: 'react',
         ts: true,
+        'dynamic-import-node': false,
       },
     ],
   ],
