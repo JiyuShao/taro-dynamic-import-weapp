@@ -60,8 +60,12 @@ export default class DynamicImportWeappPlugin {
               const currentEntryModule =
                 currentModules[currentModules.length - 1];
 
-              // @ts-ignore
-              const currentResource = currentEntryModule.resource;
+              const currentResource =
+                // @ts-ignore
+                currentEntryModule.resource ||
+                // @ts-ignore
+                currentEntryModule.rootModule.resource;
+
               if (
                 currentResource.startsWith(this.options.dynamicImportFolderPath)
               ) {

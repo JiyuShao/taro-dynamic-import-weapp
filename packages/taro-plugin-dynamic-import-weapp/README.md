@@ -59,6 +59,23 @@ yarn add -D taro-plugin-dynamic-import-weapp
 }
 ```
 
+**在 `Taro >= 3.4.5` 版本中请使用如下配置**
+
+```js
+module.exports = {
+  presets: [
+    [
+      "taro", // 不需要改这里
+      {
+        framework: "react",
+        ts: true,
+        "dynamic-import-node": false // 在原有基础上添加这个配置即可
+      }
+    ],
+  ]
+};
+```
+
 在 `src/dynamic-import` 目录下, 编写需要动态加入的代码, 例如:
 
 ```js
