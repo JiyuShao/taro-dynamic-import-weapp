@@ -1,5 +1,7 @@
 # taro-plugin-dynamic-import-weapp
 
+![Taro 3.0 动态 import](./assets/taro-official-dynamic-import.png)
+
 > 基于 Taro 3.0 的小程序端动态加载逻辑
 
 使用方式见 [taro-plugin-dynamic-import-weapp](./packages/taro-plugin-dynamic-import-weapp/README.md)
